@@ -5,7 +5,7 @@ An easy to use, declarative way of performing REST calls.
 
 After adding a reference to the RestClient assembly, create a new interface.
 
-```
+```C#
 public interface IAccountService
 {
 }
@@ -13,7 +13,7 @@ public interface IAccountService
 
 In that file, add the following to your 'using' directives.
 
-```
+```C#
 using RestClient.Definitions;
 ```
 
@@ -21,20 +21,20 @@ The interface you define will represent a particular set of REST endpoints avail
 
 Let's say it's a method to get an account, because that's a thing people do.
 
-```
+```C#
 Account GetAccount();
 ```
 
 You'll want to add an attribute to the method that indicates the HTTP verb to use when calling it.
 
-```
+```C#
 [HttpGet]
 Account GetAccount();
 ```
 
 You'll also want to add a route so that the client knows where this endpoint is (relative to whatever base URI it's been given).
 
-```
+```C#
 [HttpGet]
 [Route("api/accounts/single/{id}")]
 Account GetAccount(int id);
@@ -44,7 +44,7 @@ We've included one of the parameters in the route by enclosing its name in curly
 
 You may want to include additional information in the query string, the headers, the body, all of which can be performed by using attributes on the parameters in your method signature.
 
-```
+```C#
 [HttpGet]
 [Route("api/accounts/single/{id}")]
 Account GetAccount(int id,
@@ -57,13 +57,13 @@ Account GetAccount(int id,
 
 Instantiate an instance of Client<TInterface> and give it the base URI of the REST service you'll invoke. You can optionally provide your own implementation for handling the actual HTTP connection and the serialization, but if you don't then it will just use the defaults (HttpClient and JSON.Net).
 
-```
+```C#
 var client = new Client<IAccountService>("http://localhost");
 ```
 
 Now, just use the client.
 
-```
+```C#
 var account = await client.CallAsync(x => x.GetAccount(5, 1, true, null));
 ```
 
