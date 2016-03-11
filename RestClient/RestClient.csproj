@@ -1,0 +1,90 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{5B6E32F9-048F-4433-AB59-1A0C66A6CD0F}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>RestClient</RootNamespace>
+    <AssemblyName>RestClient</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>packages\Newtonsoft.Json.8.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Definitions\HttpDeleteAttribute.cs" />
+    <Compile Include="Definitions\HttpGetAttribute.cs" />
+    <Compile Include="Definitions\HttpHeadAttribute.cs" />
+    <Compile Include="Definitions\HttpOptionsAttribute.cs" />
+    <Compile Include="Definitions\HttpPatchAttribute.cs" />
+    <Compile Include="Definitions\HttpPostAttribute.cs" />
+    <Compile Include="Definitions\HttpPutAttribute.cs" />
+    <Compile Include="Definitions\HttpVerbAttribute.cs" />
+    <Compile Include="Definitions\IIdentityDefinition.cs" />
+    <Compile Include="Definitions\InHeaderAttribute.cs" />
+    <Compile Include="Definitions\InQueryStringAttribute.cs" />
+    <Compile Include="Definitions\MediaType.cs" />
+    <Compile Include="Definitions\RouteAttribute.cs" />
+    <Compile Include="Client.cs" />
+    <Compile Include="Exceptions\InvalidRestCallException.cs" />
+    <Compile Include="Internal\DefaultHttpClient.cs" />
+    <Compile Include="Internal\DefaultSerializer.cs" />
+    <Compile Include="Internal\Extensions\ExpressionExtensions.cs" />
+    <Compile Include="Definitions\InBodyAttribute.cs" />
+    <Compile Include="IHttpClient.cs" />
+    <Compile Include="Internal\Body.cs" />
+    <Compile Include="Internal\CallState.cs" />
+    <Compile Include="Internal\Extensions\ConversionExtensions.cs" />
+    <Compile Include="Internal\Extensions\ProjectionExtensions.cs" />
+    <Compile Include="Internal\Extensions\ValidationExtensions.cs" />
+    <Compile Include="Internal\Header.cs" />
+    <Compile Include="Internal\ParameterDefinition.cs" />
+    <Compile Include="Internal\QueryStringParameter.cs" />
+    <Compile Include="IRestClient.cs" />
+    <Compile Include="IRestSerializer.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
