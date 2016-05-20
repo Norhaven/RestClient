@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RestClient.Definitions
 {
-    public sealed class HttpHeadAttribute : HttpVerbAttribute
+    public sealed class HeadAttribute : HttpVerbAttribute
     {
     }
 }

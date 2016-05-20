@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RestClient.Definitions
 {
-    public sealed class HttpDeleteAttribute:HttpVerbAttribute
+    public sealed class OptionsAttribute : HttpVerbAttribute
     {
     }
 }

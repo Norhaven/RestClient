@@ -32,12 +32,12 @@ namespace RestClient
         
         private readonly IDictionary<Type, HttpMethod> httpMethodsByHttpVerbType = new Dictionary<Type, HttpMethod>
         {
-            [typeof(HttpDeleteAttribute)] = HttpMethod.Delete,
-            [typeof(HttpGetAttribute)] = HttpMethod.Get,
-            [typeof(HttpHeadAttribute)] = HttpMethod.Head,
-            [typeof(HttpOptionsAttribute)] = HttpMethod.Options,
-            [typeof(HttpPatchAttribute)] = new HttpMethod("PATCH"),
-            [typeof(HttpPutAttribute)] = HttpMethod.Put
+            [typeof(DeleteAttribute)] = HttpMethod.Delete,
+            [typeof(GetAttribute)] = HttpMethod.Get,
+            [typeof(HeadAttribute)] = HttpMethod.Head,
+            [typeof(OptionsAttribute)] = HttpMethod.Options,
+            [typeof(PatchAttribute)] = new HttpMethod("PATCH"),
+            [typeof(PutAttribute)] = HttpMethod.Put
         };
         
         public Client(Uri baseUri, IHttpClient httpClient = null, IRestSerializer serializer = null)
