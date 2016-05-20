@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package >
   <metadata>
-    <id>RestClient</id>
+    <id>Rest.Client</id>
     <version>$version$</version>
     <title>RestClient</title>
     <authors>Chris Hannon</authors>
