@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <package >
   <metadata>
-    <id>Rest.Client</id>
+    <id>RestClient.Contractual</id>
     <version>$version$</version>
-    <title>RestClient</title>
+    <title>RestClient.Contractual</title>
     <authors>Chris Hannon</authors>
     <owners>Chris Hannon</owners>
     <description>
