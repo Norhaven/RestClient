@@ -10,10 +10,24 @@ namespace RestClient.Internal.Extensions
 {
     static class ExpressionExtensions
     {
-        //public static LinkedList<Expression> GetDereferenceChain(this Expression expression)
-        //{
+        public static LinkedList<Expression> GetDereferenceChain(this Expression expression)
+        {
+            var chain = new LinkedList<Expression>();
+            var currentExpression = expression;
 
-        //}
+            while(currentExpression is MemberExpression)
+            {
+                chain.AddFirst(currentExpression);
+                currentExpression = ((MemberExpression)currentExpression).Expression;
+            }
+
+            if (!(currentExpression is ConstantExpression))
+                throw new ArgumentException($"Unable to dereference a chain that doesn't end in a ConstantExpression");
+
+            chain.AddFirst(currentExpression);
+
+            return chain;
+        }
 
         public static object GetValueFromMember(this object instance, MemberInfo member)
         {
@@ -28,8 +42,12 @@ namespace RestClient.Internal.Extensions
 
         public static object GetValue(this Expression expression)
         {
-            if (expression is ConstantExpression)
-                return ((ConstantExpression)expression).Value;
+            var chain = GetDereferenceChain(expression);
+
+            var valueExpression = chain.First.Value;
+
+            if (valueExpression is ConstantExpression)
+                return ((ConstantExpression)valueExpression).Value;
 
             throw new ArgumentException($"Unable to get value from a non-constant expression of type '{expression.NodeType}'");            
         }

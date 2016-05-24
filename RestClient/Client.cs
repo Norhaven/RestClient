@@ -25,11 +25,11 @@ namespace RestClient
         private const string VariableDereferenceOperator = ".";
         private const string VariableCaptureName = "variable";
 
-        private readonly Regex collectRoutePathVariables = new Regex($@"\{{(<{VariableCaptureName}>?.+\}}");
+        private readonly Regex collectRoutePathVariables = new Regex($@"\{{(<{VariableCaptureName}>?.+)\}}");
         private readonly Uri baseUri;
         private readonly IHttpClient httpClient;
         private readonly IRestSerializer serializer;
-        
+
         private readonly IDictionary<Type, HttpMethod> httpMethodsByHttpVerbType = new Dictionary<Type, HttpMethod>
         {
             [typeof(DeleteAttribute)] = HttpMethod.Delete,
@@ -37,7 +37,8 @@ namespace RestClient
             [typeof(HeadAttribute)] = HttpMethod.Head,
             [typeof(OptionsAttribute)] = HttpMethod.Options,
             [typeof(PatchAttribute)] = new HttpMethod("PATCH"),
-            [typeof(PutAttribute)] = HttpMethod.Put
+            [typeof(PutAttribute)] = HttpMethod.Put,
+            [typeof(PostAttribute)] = HttpMethod.Post
         };
         
         public Client(Uri baseUri, IHttpClient httpClient = null, IRestSerializer serializer = null)
@@ -46,7 +47,9 @@ namespace RestClient
             this.httpClient = httpClient ?? new DefaultHttpClient();
             this.serializer = serializer ?? new DefaultSerializer();
         }
-        
+
+        public Task<TResult> CallAsync<TResult>(Expression<Func<TInterface, TResult>> invokeRestMethod) => CallAsync<TResult>(invokeRestMethod, CancellationToken.None);
+
         public Task<TResult> CallAsync<TResult>(Expression<Func<TInterface, TResult>> invokeRestMethod, CancellationToken cancellationToken)
         {
             var lambdaBody = invokeRestMethod.Body;
@@ -76,8 +79,11 @@ namespace RestClient
         {
             var formattedParameters = from parameter in queryString select $"{parameter.Name}={parameter.Value}";
             var formattedQueryString = string.Join("&", formattedParameters);
-            var pathAndQuery = $"{route}?{formattedQueryString}";
 
+            if (formattedQueryString.IsMissing())
+                return new Uri(baseUri, route);
+
+            var pathAndQuery = $"{route}?{formattedQueryString}";
             return new Uri(baseUri, pathAndQuery);
         }
 

@@ -28,7 +28,7 @@ namespace RestClient.Internal
                 var serializer = new JsonSerializer();
                 serializer.Serialize(jsonWriter, instance);
 
-                return jsonWriter.ToString();
+                return writer.ToString();
             }
         }
     }

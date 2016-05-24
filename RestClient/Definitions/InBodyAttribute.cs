@@ -10,7 +10,7 @@ namespace RestClient.Definitions
     [AttributeUsage(AttributeTargets.Parameter, AllowMultiple = false, Inherited = true)]
     public sealed class InBodyAttribute:Attribute
     {
-        public Encoding Encoding { get; set; }
-        public MediaType MediaType { get; set; }
+        public Encoding Encoding { get; set; } = Encoding.Unicode;
+        public MediaType MediaType { get; set; } = MediaType.ApplicationJson;
     }
 }
