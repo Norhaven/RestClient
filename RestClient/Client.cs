@@ -18,6 +18,10 @@ using System.Text.RegularExpressions;
 
 namespace RestClient
 {
+    /// <summary>
+    /// Represents a REST client that may be used to perform REST calls (as described by <typeparamref name="TInterface"/>).
+    /// </summary>
+    /// <typeparam name="TInterface">The type of the interface that describes the possible REST calls.</typeparam>
     public sealed class Client<TInterface>:IRestClient<TInterface> where TInterface:class
     {
         private const string OpenVariable = "{";
@@ -41,21 +45,43 @@ namespace RestClient
             [typeof(PostAttribute)] = HttpMethod.Post
         };
         
+        /// <summary>
+        /// Initializes an instance of <see cref="Client{TInterface}"/> with the given parameters.
+        /// </summary>
+        /// <param name="baseUri">The base URI that all routes on <typeparamref name="TInterface"/> will be executed against.</param>
+        /// <param name="httpClient">An implementation of an HTTP client (if null, the default implementation will be used).</param>
+        /// <param name="serializer">An implementation of a complex object serializer (if null, the default implementation will be used).</param>
         public Client(Uri baseUri, IHttpClient httpClient = null, IRestSerializer serializer = null)
         {
             this.baseUri = baseUri;
             this.httpClient = httpClient ?? new DefaultHttpClient();
             this.serializer = serializer ?? new DefaultSerializer();
+
+            if (!typeof(TInterface).IsInterface)
+                throw new InvalidOperationException($"The generic type parameter TInterface must correspond to an interface but the provided type {typeof(TInterface).Name} is not an interface");
         }
 
-        public Task<TResult> CallAsync<TResult>(Expression<Func<TInterface, TResult>> invokeRestMethod) => CallAsync<TResult>(invokeRestMethod, CancellationToken.None);
+        /// <summary>
+        /// Executes a call to the REST endpoint invoked on <typeparamref name="TInterface"/>.
+        /// </summary>
+        /// <typeparam name="TResult">The type of the result expected from this operation.</typeparam>
+        /// <param name="invokeRestMethod">An expression invoking a method on the <typeparamref name="TInterface"/> interface.</param>
+        /// <returns>An instance of <typeparamref name="TResult"/> that may be awaited."</returns>
+        public Task<TResult> CallAsync<TResult>(Expression<Func<TInterface, TResult>> invokeRestMethod) => CallAsync(invokeRestMethod, CancellationToken.None);
 
+        /// <summary>
+        /// Executes a call to the REST endpoint invoked on <typeparamref name="TInterface"/>.
+        /// </summary>
+        /// <typeparam name="TResult">The type of the result expected from this operation.</typeparam>
+        /// <param name="invokeRestMethod">An expression invoking a method on the <typeparamref name="TInterface"/> interface.</param>
+        /// <param name="cancellationToken">A cancellation token for this operation.</param>
+        /// <returns>An instance of <typeparamref name="TResult"/> that may be awaited."</returns>
         public Task<TResult> CallAsync<TResult>(Expression<Func<TInterface, TResult>> invokeRestMethod, CancellationToken cancellationToken)
         {
             var lambdaBody = invokeRestMethod.Body;
 
             if (lambdaBody.NodeType != ExpressionType.Call)
-                throw new ArgumentException($"The lambda provided to {nameof(IRestClient<TInterface>.CallAsync)} must contain a single method call using the specified {typeof(TInterface).Name} type.", nameof(invokeRestMethod));
+                throw new ArgumentException($"The expression provided to {nameof(IRestClient<TInterface>.CallAsync)} must contain a single method call using the specified {typeof(TInterface).Name} type.", nameof(invokeRestMethod));
 
             var methodCall = (MethodCallExpression)lambdaBody;
             var method = methodCall.Method;
@@ -108,7 +134,7 @@ namespace RestClient
             var status = response.StatusCode;
 
             if (status != HttpStatusCode.OK)
-                throw new InvalidRestCallException(status, $"Received status '{status}' for REST call to {fullUri.AbsolutePath}");
+                throw new InvalidRestCallException(status, $"Received status '{status}' for REST call to {fullUri.AbsoluteUri}");
 
             var responseContent = await response.Content.ReadAsStringAsync();
                         

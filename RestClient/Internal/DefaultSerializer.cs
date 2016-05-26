@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using RestClient.Internal.Extensions;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -12,6 +13,8 @@ namespace RestClient.Internal
     {
         T IRestSerializer.Deserialize<T>(string text)
         {
+            text.ThrowIfNull(nameof(text), "Expected a non-null value for deserialization but found null");
+                       
             using (var reader = new StringReader(text))
             using (var jsonReader = new JsonTextReader(reader))
             {
@@ -22,6 +25,8 @@ namespace RestClient.Internal
 
         string IRestSerializer.Serialize(object instance)
         {
+            instance.ThrowIfNull(nameof(instance), "Expected a non-null instance for serialization but found null");
+
             using (var writer = new StringWriter())
             using (var jsonWriter = new JsonTextWriter(writer))
             {

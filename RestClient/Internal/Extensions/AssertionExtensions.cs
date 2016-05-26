@@ -9,6 +9,15 @@ namespace RestClient.Internal.Extensions
 {
     internal static class AssertionExtensions
     {
+        private const string IsDebug = "DEBUG";
+
+        [Conditional(IsDebug)]
+        public static void AssertNonNull<T>(this T instance, string message)
+        {
+            Debug.Assert(!instance.IsDefaultValue(), message);
+        }
+
+        [Conditional(IsDebug)]
         public static void AssertEqualTo<T>(this T instance, T otherInstance)
         {
             var leftIsDefault = instance.IsDefaultValue();

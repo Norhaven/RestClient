@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RestClient.Internal.Extensions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
@@ -12,6 +13,8 @@ namespace RestClient.Internal
     {
         async Task<HttpResponseMessage> IHttpClient.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {
+            request.AssertNonNull("Expected the HttpRequestMessage instance to be non-null but found null");
+
             using (var http = new HttpClient())
             {
                 return await http.SendAsync(request, cancellationToken);

@@ -70,6 +70,7 @@
     <Compile Include="Client\QueryStrings.cs" />
     <Compile Include="Client\HttpVerbs.cs" />
     <Compile Include="Client\Headers.cs" />
+    <Compile Include="Client\Constructor.cs" />
     <Compile Include="Client\UrlVariables.cs" />
     <Compile Include="IQueryStrings.cs" />
     <Compile Include="IHttpVerbs.cs" />

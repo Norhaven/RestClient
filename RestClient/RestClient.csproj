@@ -70,7 +70,6 @@
     <Compile Include="Definitions\InBodyAttribute.cs" />
     <Compile Include="IHttpClient.cs" />
     <Compile Include="Internal\Body.cs" />
-    <Compile Include="Internal\CallState.cs" />
     <Compile Include="Internal\Extensions\AssertionExtensions.cs" />
     <Compile Include="Internal\Extensions\ConversionExtensions.cs" />
     <Compile Include="Internal\Extensions\ExpressionExtensions.cs" />
