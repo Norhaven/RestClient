@@ -68,3 +68,9 @@ var account = await client.CallAsync(x => x.GetAccount(5, 1, true, null));
 ```
 
 This will package up the provided parameters according to your method signature, make the REST call, and give you back the deserialized Account instance they return to you.
+
+Currently, values provided as parameters may be literals, variables, fields, or properties (with any additional dereferencing necessary). Some things, such as using the return value of a method or instantiating an object with the `new` keyword, are not supported at this time.
+
+## I found a bug / I have a suggestion
+
+You're more than welcome to head on over to the [Issues](https://github.com/Norhaven/RestClient/issues) page and submit an issue!
