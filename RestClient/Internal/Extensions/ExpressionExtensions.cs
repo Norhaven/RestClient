@@ -46,10 +46,35 @@ namespace RestClient.Internal.Extensions
 
             var valueExpression = chain.First.Value;
 
-            if (valueExpression is ConstantExpression)
-                return ((ConstantExpression)valueExpression).Value;
+            if (!(valueExpression is ConstantExpression))
+                throw new ArgumentException($"Unable to get value from a non-constant expression of type '{expression.NodeType}'");
+            
+            return Dereference(chain);
+        }
 
-            throw new ArgumentException($"Unable to get value from a non-constant expression of type '{expression.NodeType}'");            
+        private static object Dereference(LinkedList<Expression> chain)
+        {   
+            var currentMemberAccess = chain.First;
+            object currentInstance = null;
+
+            while(currentMemberAccess != null)
+            {
+                if (currentMemberAccess.Value.Is<ConstantExpression>(constant => { currentInstance = constant.Value; })) { }
+                else if (currentMemberAccess.Value.Is<MemberExpression>(member => { currentInstance = currentInstance.GetValueFromMember(member.Member); })) { }
+
+                currentMemberAccess = currentMemberAccess.Next;
+            }
+
+            return currentInstance;
+        }
+
+        private static bool Is<T>(this Expression expression, Action<T> then) where T :Expression
+        {
+            if (!(expression is T))
+                return false;
+
+            then((T)expression);
+            return true;
         }
     }
 }

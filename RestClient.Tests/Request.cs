@@ -8,5 +8,6 @@ namespace RestClient.Tests
 {
     class Request
     {
+        public string TextContent { get; set; }
     }
 }
