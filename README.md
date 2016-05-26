@@ -55,7 +55,7 @@ Account GetAccount(int id,
 
 ## Okay, so I did that. How do I make a REST call?
 
-Instantiate an instance of Client&gtTInterface&lt and give it the base URI of the REST service you'll invoke. You can optionally provide your own implementation for handling the actual HTTP connection and the serialization, but if you don't then it will just use the defaults (currently HttpClient and JSON.Net).
+Instantiate an instance of `Client<TInterface>` and give it the base URI of the REST service you'll invoke. You can optionally provide your own implementation for handling the actual HTTP connection and the serialization, but if you don't then it will just use the defaults (currently HttpClient and JSON.Net).
 
 ```C#
 var client = new Client<IAccountService>("http://localhost");
