@@ -17,6 +17,25 @@ namespace RestClient.Tests
 
         public static readonly Uri BaseUri = new Uri("http://localhost");
 
+        public static T OfType<T>() where T :new()
+        {
+            var type = typeof(T);
+            var instance = new T();
+
+            foreach (var property in type.GetProperties())
+            {
+                if (property.PropertyType == typeof(string))
+                    property.SetValue(instance, RandomString());
+            }
+
+            return instance;
+        }
+
+        public static int RandomInt(int min = 0, int max = 10)
+        {
+            return random.Next(min, max);
+        }
+
         public static string RandomString(int length = 10)
         {
             var builder = new StringBuilder();
@@ -41,6 +60,11 @@ namespace RestClient.Tests
                 setup(httpClient);
 
             return new Client<T>(BaseUri, httpClient.Object);
+        }
+        
+        public static class Routes
+        {
+            public const string Empty = "/empty";
         }
 
         public static class Responses

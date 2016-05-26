@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace RestClient.Internal.Extensions
 {
-    static class ExpressionExtensions
+    internal static class ExpressionExtensions
     {
         public static LinkedList<Expression> GetDereferenceChain(this Expression expression)
         {

@@ -12,8 +12,8 @@ namespace RestClient.Tests
         [TestMethod]
         public async Task ComplexRequestAndResponseCanBeSentRoundTrip()
         {
-            var actualRequest = new Request { TextContent = TestData.RandomString() };
-            var expectedResponse = new Response { TextContent = TestData.RandomString() };
+            var actualRequest = TestData.OfType<Request>();
+            var expectedResponse = TestData.OfType<Response>();
 
             var client = TestData.ClientOf<IPostBody>(x =>
                 x.IfRequestHasStringContentAndContentIs(content => content.IsEqualToSerialized(actualRequest),

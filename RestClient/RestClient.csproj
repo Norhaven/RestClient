@@ -71,6 +71,7 @@
     <Compile Include="IHttpClient.cs" />
     <Compile Include="Internal\Body.cs" />
     <Compile Include="Internal\CallState.cs" />
+    <Compile Include="Internal\Extensions\AssertionExtensions.cs" />
     <Compile Include="Internal\Extensions\ConversionExtensions.cs" />
     <Compile Include="Internal\Extensions\ExpressionExtensions.cs" />
     <Compile Include="Internal\Extensions\ProjectionExtensions.cs" />
@@ -84,7 +85,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-    <None Include="RestClient.pfx" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

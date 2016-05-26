@@ -20,6 +20,26 @@ namespace RestClient.Tests
 
         public static Task<T> AsTask<T>(this T instance) => Task.FromResult(instance);
 
+        public static Mock<IHttpClient> RequireHeaderOf(this Mock<IHttpClient> mock, string headerName, object value)
+        {
+            return mock.IfRequestIs(message => message.Headers.Contains(headerName) && message.Headers.GetValues(headerName).FirstOrDefault() == value?.ToString(), ReturnsEmptyString);
+        }
+
+        public static Mock<IHttpClient> RequireQueryStringOf(this Mock<IHttpClient> mock, string expectedQueryString)
+        {
+            return mock.IfRequestIs(message => message.RequestUri.Query == $"?{expectedQueryString}", ReturnsEmptyString);
+        }
+
+        public static Mock<IHttpClient> RequirePathOf(this Mock<IHttpClient> mock, string expectedPath)
+        {
+            return mock.IfRequestIs(message => message.RequestUri.AbsolutePath == expectedPath, ReturnsEmptyString);
+        }
+
+        public static Mock<IHttpClient> RequireRequestUsesVerb(this Mock<IHttpClient> mock, HttpMethod method)
+        {
+            return mock.IfRequestIs(message => message.Method == method, ReturnsEmptyString);
+        }
+
         public static Mock<IHttpClient> IfRequestHasStringContentAndContentIs<T>(this Mock<IHttpClient> mock, Predicate<string> isMatch, Func<T> then)
         {
             return mock.IfRequestIs(message => message.Content.IsStringContent(content => isMatch(content)), then);
@@ -59,6 +79,8 @@ namespace RestClient.Tests
 
         public static string Serialized<T>(this T instance) => ((IRestSerializer)new RestClient.Internal.DefaultSerializer()).Serialize(instance);
 
-        public static bool IsEqualToSerialized<T>(this string text, T instance) => text == instance.Serialized();        
+        public static bool IsEqualToSerialized<T>(this string text, T instance) => text == instance.Serialized();
+
+        private static string ReturnsEmptyString() => string.Empty;  
     }
 }

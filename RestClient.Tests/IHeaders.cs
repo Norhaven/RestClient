@@ -7,10 +7,14 @@ using System.Threading.Tasks;
 
 namespace RestClient.Tests
 {
-    interface IPostBody
+    interface IHeaders
     {
         [Post]
         [Route(TestData.Routes.Empty)]
-        Response Run([InBody]Request value);
+        Response PrimitiveWithDefaultName([InHeader]int number);
+
+        [Post]
+        [Route(TestData.Routes.Empty)]
+        Response PrimitiveWithSpecifiedName([InHeader(Name = "SpecifiedName")]int number);
     }
 }

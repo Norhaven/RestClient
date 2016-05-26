@@ -60,11 +60,21 @@
     </When>
     <Otherwise>
       <ItemGroup>
-        <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework" />
+        <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework">
+          <Private>False</Private>
+        </Reference>
       </ItemGroup>
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Client\QueryStrings.cs" />
+    <Compile Include="Client\HttpVerbs.cs" />
+    <Compile Include="Client\Headers.cs" />
+    <Compile Include="Client\UrlVariables.cs" />
+    <Compile Include="IQueryStrings.cs" />
+    <Compile Include="IHttpVerbs.cs" />
+    <Compile Include="IHeaders.cs" />
+    <Compile Include="IUrlVariables.cs" />
     <Compile Include="IPostBody.cs" />
     <Compile Include="Request.cs" />
     <Compile Include="Response.cs" />

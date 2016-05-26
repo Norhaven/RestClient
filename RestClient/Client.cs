@@ -25,7 +25,7 @@ namespace RestClient
         private const string VariableDereferenceOperator = ".";
         private const string VariableCaptureName = "variable";
 
-        private readonly Regex collectRoutePathVariables = new Regex($@"\{{(<{VariableCaptureName}>?.+)\}}");
+        private readonly Regex collectRoutePathVariables = new Regex($@"\{{(?<{VariableCaptureName}>.+?)\}}");
         private readonly Uri baseUri;
         private readonly IHttpClient httpClient;
         private readonly IRestSerializer serializer;
@@ -96,10 +96,13 @@ namespace RestClient
                 request.Headers.Add(header.Name, header.Value.ToString());
             }
 
-            var mediaType = body.MediaType.ToMediaTypeString();
-            var content = this.serializer.Serialize(body.Content);
+            if (body != null)
+            {
+                var mediaType = body.MediaType.ToMediaTypeString();
+                var content = this.serializer.Serialize(body.Content);
 
-            request.Content = new StringContent(content, body.Encoding, mediaType);
+                request.Content = new StringContent(content, body.Encoding, mediaType);
+            }
 
             var response = await this.httpClient.SendAsync(request, cancellationToken);
             var status = response.StatusCode;

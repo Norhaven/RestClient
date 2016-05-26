@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RestClient.Internal
 {
-    class Header
+    internal sealed class Header
     {
         public string Name { get; internal set; }
         public object Value { get; internal set; }
