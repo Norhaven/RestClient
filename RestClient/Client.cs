@@ -134,7 +134,7 @@ namespace RestClient
             var status = response.StatusCode;
 
             if (status != HttpStatusCode.OK)
-                throw new InvalidRestCallException(status, $"Received status '{status}' for REST call to {fullUri.AbsoluteUri}");
+                throw new InvalidRestCallException(response, $"Received status '{status}' for REST call to {fullUri.AbsoluteUri}");
 
             var responseContent = await response.Content.ReadAsStringAsync();
                         
